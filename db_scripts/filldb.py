@@ -2,6 +2,7 @@
 import psycopg2
 from config import config
 import urllib.request, json 
+import ast
 
 
 def connect():
@@ -16,7 +17,7 @@ def connect():
         conn = psycopg2.connect(**params)
 		
         # create a cursor
-        addRestaurants(conn)
+        addRestaurants(conn, getRestuarants())
 
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
@@ -26,16 +27,23 @@ def connect():
             print('Database connection closed.')
 
 def getRestuarants():
+    restaurants = []
     with urllib.request.urlopen("https://data.baltimorecity.gov/resource/k5ry-ef3g.json") as url:
         data = json.loads(url.read().decode())
-        print(data[name])
+        for r in data:
+            addressMap = ast.literal_eval(r['location_1']['human_address'])
+            address = " ".join([addressMap['address'], addressMap['city']+',', addressMap['state']])
+            restaurants.append((address, r['name'], r['neighborhood'], r['zipcode']))
+    return restaurants
 
-def addRestaurants(conn):
-    sql = "INSERT INTO restaurants (name, zipCode, neighborhood, address) VALUES(%s, %s, %s, %s)"
+def addRestaurants(conn, restaurants):
+    sql = "INSERT INTO restaurant (address, name, neighborhood, zip_code) VALUES(%s, %s, %s, %s)"
     cur = conn.cursor()
-    cur.executemany(sql,)
+    cur.executemany(sql, restaurants)
+    # commit the changes to the database
+    conn.commit()
     # close the communication with the PostgreSQL
     cur.close()
 
 if __name__ == '__main__':
-    getRestuarants()
+    connect()
