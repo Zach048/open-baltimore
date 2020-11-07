@@ -1,0 +1,15 @@
+mat-card {
+    max-width: 400px;
+    margin: 2em auto;
+    text-align: center;
+  }
+  
+  mat-form-field {
+    display: block;
+  }
+
+  .g-signin2 {
+    float: right;
+    margin-right: 20px;
+    padding-top: 30px;  
+}

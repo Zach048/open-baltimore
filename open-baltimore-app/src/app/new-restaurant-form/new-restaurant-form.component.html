@@ -1,0 +1,38 @@
+<h2 mat-dialog-title>New Restaurant</h2>
+
+<mat-dialog-content [formGroup]="newRestaurantForm">
+        <p>
+        <mat-form-field>
+                <input matInput
+                        placeholder="Name"
+                       formControlName="name">
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field>
+                <input matInput
+                        placeholder="Address"
+                        formControlName="address">
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field>
+                <input matInput
+                        placeholder="ZipCode"
+                        formControlName="zip">
+            </mat-form-field>
+        <p>
+
+            <mat-form-field>
+                <input matInput
+                placeholder="Neighborhood"
+                formControlName="neighborhood">
+            </mat-form-field>
+        </p>
+ 
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button class="mat-raised-button mat-primary" (click)="save()" style="margin-right:5%">Submit</button>
+    <button class="mat-raised-button"(click)="close()">Close</button>
+</mat-dialog-actions>
