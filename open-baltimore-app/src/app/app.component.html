@@ -5,22 +5,22 @@
           <mat-icon>menu</mat-icon>
         </button>
       </div>
-      <a mat-button class="companyName" routerLink="/">
+      <a mat-button class="companyName" routerLink="/dashboard">
         <span>OpenBaltimore</span>
       </a>
       <span class="example-spacer"></span>
       <div fxShow="true" fxHide.lt-md="true">
-        <a mat-button routerLink="/about-us">Ratings</a>
-        <a mat-button routerLink="/start-page">Map</a>
-        <a mat-button routerLink="/offer">Analytics</a>
+        <a mat-button routerLink="/reviews">Reviews</a>
+        <a mat-button routerLink="/map">Map</a>
+        <a mat-button (click) = "signOut()">SignOut</a>
       </div>
     </mat-toolbar>
     <mat-sidenav-container fxFlexFill class="example-container">
       <mat-sidenav color="primary" #sidenav fxLayout="column" mode="over" opened="false" fxHide.gt-sm="true">
         <div fxLayout="column">
-          <a mat-button routerLink="/about-us">Ratings</a>
-          <a mat-button routerLink="/prices">Map</a>
-          <a mat-button routerLink="/start-page">Analytics</a>
+          <a mat-button routerLink="/reviews">Reviewss</a>
+          <a mat-button routerLink="/map">Map</a>
+          <a mat-button (click) = "signOut()">SignOut</a>
         </div>
       </mat-sidenav>
       <mat-sidenav-content fxFlexFill>

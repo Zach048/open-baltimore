@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { NewRestaurantFormComponent } from '../new-restaurant-form/new-restaurant-form.component';
 import { EditRestaurantFormComponent } from '../edit-restaurant-form/edit-restaurant-form.component';
+import { ReviewModalComponent } from '../review-modal/review-modal.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,8 +19,10 @@ export class DashboardComponent implements AfterViewInit {
     public restaurants: any = [];
     api = 'http://localhost:8080/';
     public restaurant: any = {};
+    user: string;
+    review: any = {};
 
-    displayedColumns: string[] = ['restaurant', 'address', 'zipcode', 'neighborhood', 'restaurantChange', 'closedRestaurant'];
+    displayedColumns: string[] = ['restaurant', 'rating', 'address', 'zipcode', 'neighborhood', 'restaurantChange', 'closedRestaurant', 'review'];
     dataSource = new MatTableDataSource();
     // References to table elements
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -59,60 +62,58 @@ export class DashboardComponent implements AfterViewInit {
 
     }
 
-    /* Saves restaurant to database and propagates table accordingly */
-    saveRestaurant(dialogRef, id?): void {
-      if (id != null) {
-        this.restaurant.id = id;
-      }
-      dialogRef.afterClosed().subscribe(data => {
-        if (data === null) { return; }
-        this.restaurant.name = data.name;
-        this.restaurant.address = data.address;
-        this.restaurant.zipCode = data.zip;
-        this.restaurant.neighborhood = data.neighborhood;
-        // add data
-        if (!id) {
-          this.http.post(this.api + 'restaurant/save', this.restaurant).subscribe((data: any) => {
-            this.restaurant.id = data;
-            this.restaurants.push(this.restaurant);
-            this.dataSource.data = this.restaurants;
-          },
-          error => console.error('Error adding restaurant', error));
-        }
-          // update data
-          else{
-            this.http.put(this.api + 'restaurant/update', this.restaurant)
-            .subscribe(
-              response => console.log('Successfully updated restaurant', response),
-              error => console.error('Error updating restaurant', error)
-            );
-            const index = this.restaurants.findIndex((item) => item.id === id);
-            if (index > -1) {
-                this.restaurants[index] = this.restaurant;
+        /* Saves restaurant to database and propagates table accordingly */
+        saveRestaurant(dialogRef): void {
+
+          dialogRef.afterClosed().subscribe(data => {
+            if (data === null) { return; }
+            this.restaurant.name = data.name;
+            this.restaurant.address = data.address;
+            this.restaurant.zipCode = data.zip;
+            this.restaurant.neighborhood = data.neighborhood;
+            // add data
+            if (!this.restaurant.id) {
+              this.restaurant.rating = null;
+              this.http.post(this.api + 'restaurant/save', this.restaurant).subscribe((data: any) => {
+                this.restaurant.id = data;
+                this.restaurants.push(this.restaurant);
+                this.dataSource.data = this.restaurants;
+              },
+              error => console.error('Error adding restaurant', error));
             }
-            this.dataSource.data = this.restaurants;
-          }
-      });
-    }
-      /* Opens dialoge to edit restaurant when button is pushed */
-      editRestaurant(r: any): void {
-      const dialogConfig = new MatDialogConfig();
+              // update data
+              else{
+                this.http.put(this.api + 'restaurant/update', this.restaurant)
+                .subscribe(
+                  response => console.log('Successfully updated restaurant', response),
+                  error => console.error('Error updating restaurant', error)
+                );
+                const index = this.restaurants.findIndex((item) => item.id === this.restaurant.id);
+                if (index > -1) {
+                    this.restaurants[index] = this.restaurant;
+                }
+                this.dataSource.data = this.restaurants;
+              }
+          });
+        }
+          /* Opens dialoge to edit restaurant when button is pushed */
+          editRestaurant(r: any): void {
+          const dialogConfig = new MatDialogConfig();
 
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = true;
-      // Sends data to NewRestaurantFormComponent
-      dialogConfig.data = {
-          name: r.name,
-          address: r.address,
-          zip: r.zipCode,
-          neighborhood: r.neighborhood
-      };
-
-      this.dialog.open(EditRestaurantFormComponent, dialogConfig);
-
-      const dialogRef = this.dialog.open(EditRestaurantFormComponent, dialogConfig);
-      this.saveRestaurant(dialogRef, r.id);
-    }
+          dialogConfig.disableClose = true;
+          dialogConfig.autoFocus = true;
+          // Sends data to NewRestaurantFormComponent
+          dialogConfig.data = {
+              name: r.name,
+              address: r.address,
+              zip: r.zipCode,
+              neighborhood: r.neighborhood
+          };
+          const dialogRef = this.dialog.open(EditRestaurantFormComponent, dialogConfig);
+          this.restaurant.id = r.id;
+          this.restaurant.rating = r.rating;
+          this.saveRestaurant(dialogRef);
+        }
     /* Opens dialoge to delete restaurant when button is pushed */
     deleteRestaurant(r: any): void {
       if (confirm('Are you sure you want to delete ' + r.name + '?')) { // prompts user for confirmation
@@ -125,5 +126,36 @@ export class DashboardComponent implements AfterViewInit {
       this.restaurants.splice(index, 1);
       this.dataSource.data = this.restaurants;
     }
+  }
+  openReviewModal(r): void {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    const dialogRef = this.dialog.open(ReviewModalComponent, dialogConfig);
+    this.restaurant = r;
+    this.reviewRestaurant(dialogRef);
+  }
+
+  reviewRestaurant(dialogRef): void {
+    dialogRef.afterClosed().subscribe(data => {
+      if (data === null) { return; }
+      this.review.rating = data.rating;
+      this.review.review = data.review;
+      this.review.email = 'user@email.com';
+      this.review.restaurant = this.restaurant;
+
+      this.http.post(this.api + 'review/save', this.review)
+      .subscribe(
+        response => console.log('Successfully reviewed restaurant', response),
+        error => console.error('Error reviewing restaurant', error)
+      );
+    });
+
+  }
+
+  export(): void{
+
   }
 }

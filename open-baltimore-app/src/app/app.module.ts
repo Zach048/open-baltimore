@@ -13,6 +13,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
@@ -22,6 +23,9 @@ import { NewRestaurantFormComponent } from './new-restaurant-form/new-restaurant
 import {MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditRestaurantFormComponent } from './edit-restaurant-form/edit-restaurant-form.component';
+import { ReviewModalComponent } from './review-modal/review-modal.component';
+import { ReviewsComponent } from './reviews/reviews.component';
+import { MapComponent } from './map/map.component';
 
 
 
@@ -31,7 +35,10 @@ import { EditRestaurantFormComponent } from './edit-restaurant-form/edit-restaur
     LoginComponent,
     DashboardComponent,
     NewRestaurantFormComponent,
-    EditRestaurantFormComponent
+    EditRestaurantFormComponent,
+    ReviewModalComponent,
+    ReviewsComponent,
+    MapComponent
   ],
 
   entryComponents: [
@@ -56,9 +63,10 @@ import { EditRestaurantFormComponent } from './edit-restaurant-form/edit-restaur
     HttpClientModule,
     MatDialogModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSelectModule
   ],
-  providers: [],
+  providers: [LoginComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Review Restaurant</h2>
+
+<mat-dialog-content [formGroup]="reviewForm">
+    <mat-form-field appearance="fill">
+        <mat-label>Rating</mat-label>
+        <mat-select placeholder="Rating"
+        formControlName="rating">>
+          <mat-option value="1">1<mat-icon>star</mat-icon></mat-option>
+          <mat-option value="2">2<mat-icon>star</mat-icon></mat-option>
+          <mat-option value="3">3<mat-icon>star</mat-icon></mat-option>
+          <mat-option value="4">4<mat-icon>star</mat-icon></mat-option>
+          <mat-option value="5">5<mat-icon>star</mat-icon></mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="fill">
+        <mat-label>Review</mat-label>
+        <textarea matInput placeholder="Review"
+        formControlName="review">></textarea>
+      </mat-form-field>
+ 
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button class="mat-raised-button mat-primary" (click)="save()" style="margin-right:5%">Submit</button>
+    <button class="mat-raised-button"(click)="close()">Close</button>
+</mat-dialog-actions>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 declare const gapi: any;
@@ -41,12 +41,26 @@ export class LoginComponent implements OnInit {
         console.log('Image URL: ' + profile.getImageUrl());
         console.log('Email: ' + profile.getEmail());
         // YOUR CODE HERE
-        console.log('pushed');
+        setTimeout(() => {
+          this.router.navigate(['/dashboard']);
+        }, 5000);
+
+
+
 
 
       }, (error) => {
         alert(JSON.stringify(error, undefined, 2));
       });
+  }
+
+  signOut(): void {
+    const auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(() => {
+      console.log('User signed out.');
+      this.router.navigate(['/']);
+
+    });
   }
 
 // tslint:disable-next-line: use-lifecycle-interface
