@@ -1,27 +1,30 @@
 # OpenBaltimore
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0.
+## Server:
 
-## Development server
+1. Clone repository
+2. Install Java JDK
+3. Install Maven
+4. Run the following commands from the command line: 
+```
+mvn install from command line
+Run java -jar target/<jar-file-name>
+```
+The jar file should be named something similar to 'open-baltimore-0.0.1-SNAPSHOT.jar' and should be the only jar file in the target folder
+The server is hosted on http://localhost:8080'
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Web App:
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+1. Clone repository
+2. Download NodeJS
+3. Run npm the following command to install Angular 10 from the command line: 
+```
+install -g @angular/cli from command line
+```
+4. Open terminal (or another command line interface) and navigate to 'open-baltimore-app' directory
+5. Run the following command to install required node_modules and start the web app locally:
+```
+npm install
+ng serve
+```
+The web is hosted on 'http://localhost:4200'
