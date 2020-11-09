@@ -21,11 +21,13 @@ import {MatTableModule} from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
 import { NewRestaurantFormComponent } from './new-restaurant-form/new-restaurant-form.component';
 import {MatDialogModule } from '@angular/material/dialog';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditRestaurantFormComponent } from './edit-restaurant-form/edit-restaurant-form.component';
 import { ReviewModalComponent } from './review-modal/review-modal.component';
 import { ReviewsComponent } from './reviews/reviews.component';
 import { MapComponent } from './map/map.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
@@ -64,7 +66,9 @@ import { MapComponent } from './map/map.component';
     MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatAutocompleteModule,
+    NgSelectModule
   ],
   providers: [LoginComponent],
   bootstrap: [AppComponent]

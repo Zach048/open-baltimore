@@ -1,1 +1,11 @@
-<p>map works!</p>
+<div class="example-container" [formGroup]="mapForm">
+        <mat-form-field [style.width.px]=1000>
+          <mat-select formControlName="name" (selectionChange) = "searchMap($event.value)">
+                <mat-option *ngFor="let restaurant of restaurants" [value]="restaurant" (change) = "searchMap()">
+                        {{restaurant.name}}
+                      </mat-option>
+                    </mat-select>
+        </mat-form-field>
+      </div>
+      <div id="mapid"></div>
+       
