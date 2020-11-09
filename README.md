@@ -7,6 +7,7 @@
 - JPA Data
 - Angular 10
 - Angular Material
+- Postgresql
 
 ## Server:
 
