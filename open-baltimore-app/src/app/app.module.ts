@@ -28,6 +28,7 @@ import { ReviewModalComponent } from './review-modal/review-modal.component';
 import { ReviewsComponent } from './reviews/reviews.component';
 import { MapComponent } from './map/map.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { AuthGuard } from './auth/auth.guard';
 
 
 
@@ -70,7 +71,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     MatAutocompleteModule,
     NgSelectModule
   ],
-  providers: [LoginComponent],
+  providers: [LoginComponent, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

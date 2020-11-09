@@ -3,16 +3,20 @@
  */
 package com.jhu.openbaltimore.api;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.prefs.CsvPreference;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jhu.openbaltimore.model.Restaurant;
@@ -30,7 +34,7 @@ public class RestaurantController {
 	RestaurantRepository restRepo;
 	
 	@GetMapping("all")
-	public List<Restaurant> getRestuarants() {
+	public List<Restaurant> getRestaurants() {
 		return restRepo.findAll();
 	}
 	
@@ -51,4 +55,22 @@ public class RestaurantController {
 	public void deleteRestaurant(@RequestBody Long id) {
 		restRepo.deleteById(id);
 	}
+	
+	@GetMapping(value = "/export")
+    public void downloadCSV(HttpServletResponse response) throws IOException {
+        String csvFileName = "restaurants.csv";
+        response.setContentType("text/csv");
+        String headerKey = "Content-Disposition";
+        String headerValue = String.format("attachment; filename="+csvFileName+".csv");
+        response.setHeader(headerKey, headerValue);
+        // uses the Super CSV API to generate CSV data from the model data
+        ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
+                CsvPreference.STANDARD_PREFERENCE);
+        String[] header = { "Name", "Address", "ZipCode", "Neighborhood" };
+        csvWriter.writeHeader(header);
+        for (Restaurant r : getRestaurants()) {
+            csvWriter.write(r, header);
+        }
+        csvWriter.close();
+    }
 }

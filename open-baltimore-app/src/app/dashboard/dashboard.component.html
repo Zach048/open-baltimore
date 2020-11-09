@@ -55,7 +55,7 @@
       <!-- Delete Column -->
       <ng-container matColumnDef="closedRestaurant">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Closed? </th>
-        <td mat-cell *matCellDef="let row"><button mat-raised-button color="warn" (click) = "deleteRestaurant(row)">Delete</button></td>
+        <td mat-cell *matCellDef="let row"><button mat-raised-button color="warn" (click) = "deleteRestaurant(row)" style = "margin-right: 7px;">Delete</button></td>
       </ng-container>
 
       <!-- Add Review Column -->

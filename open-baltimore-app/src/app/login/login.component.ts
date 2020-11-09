@@ -1,5 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, NgZone, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 declare const gapi: any;
 
@@ -9,14 +10,9 @@ declare const gapi: any;
   styleUrls: ['./login.component.css']
 })
 
-export class LoginComponent implements OnInit {
+export class LoginComponent implements AfterViewInit {
   public auth2: any;
-  ngZone: any;
-  constructor( private route: ActivatedRoute, private router: Router) {
-  }
-
-  // tslint:disable-next-line: typedef
-  ngOnInit() {
+  constructor( private route: ActivatedRoute, private router: Router, private ngZone: NgZone, private authService: AuthService) {
   }
 
 
@@ -40,14 +36,14 @@ export class LoginComponent implements OnInit {
         console.log('Name: ' + profile.getName());
         console.log('Image URL: ' + profile.getImageUrl());
         console.log('Email: ' + profile.getEmail());
-        // YOUR CODE HERE
-        setTimeout(() => {
-          this.router.navigate(['/dashboard']);
-        }, 5000);
-
-
-
-
+        // set email address as username
+        localStorage.setItem('user', profile.getEmail());
+        // set login flag for auth guard
+        localStorage.setItem('isLoggedIn', 'true');
+        // Must use NgZone so UI can update properly
+        this.ngZone.run(() => {
+          this.router.navigate(['../dashboard']);
+        });
 
       }, (error) => {
         alert(JSON.stringify(error, undefined, 2));
@@ -58,17 +54,13 @@ export class LoginComponent implements OnInit {
     const auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(() => {
       console.log('User signed out.');
+      this.authService.logout();
       this.router.navigate(['/']);
 
     });
   }
 
-// tslint:disable-next-line: use-lifecycle-interface
-// tslint:disable-next-line: typedef
-  ngAfterViewInit(){
+  ngAfterViewInit(): void{
         this.googleInit();
-        // this.ngZone.run(() => {
-        //   this.router.navigate(['../dashboard']);
-        // });
   }
 }

@@ -1,5 +1,6 @@
 table {
-    width: 100%;
+  width: 80%;
+  margin-left: 10%; 
   }
   
   .mat-form-field {
@@ -23,7 +24,7 @@ table {
   
  }
 
- .div-button {
+ .export-div {
   margin-top: 25px;
   margin-left: 69%;
  }

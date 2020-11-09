@@ -19,7 +19,7 @@ export class DashboardComponent implements AfterViewInit {
     public restaurants: any = [];
     api = 'http://localhost:8080/';
     public restaurant: any = {};
-    user: string;
+    user = localStorage.user;
     review: any = {};
 
     displayedColumns: string[] = ['restaurant', 'rating', 'address', 'zipcode', 'neighborhood', 'restaurantChange', 'closedRestaurant', 'review'];
@@ -143,7 +143,7 @@ export class DashboardComponent implements AfterViewInit {
       if (data === null) { return; }
       this.review.rating = data.rating;
       this.review.review = data.review;
-      this.review.email = 'user@email.com';
+      this.review.email = this.user;
       this.review.restaurant = this.restaurant;
 
       this.http.post(this.api + 'review/save', this.review)
@@ -156,6 +156,6 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   export(): void{
-
+    window.location.href = this.api + 'restaurant/export';
   }
 }

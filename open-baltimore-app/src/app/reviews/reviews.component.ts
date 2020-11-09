@@ -21,9 +21,10 @@ export class ReviewsComponent implements OnInit {
     dataSource = new MatTableDataSource();
     reviews: any = [];
     api = 'http://localhost:8080/';
+    user = localStorage.getItem('user');
 
   constructor(private http: HttpClient) {
-    this.http.get(this.api + 'review/all/user@email.com').subscribe((data: any) => {
+    this.http.get(this.api + 'review/all/' + this.user).subscribe((data: any) => {
       this.dataSource.data = data;
       this.reviews = data;
       console.log(this.reviews);

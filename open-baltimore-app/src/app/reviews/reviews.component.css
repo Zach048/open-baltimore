@@ -1,6 +1,22 @@
 table {
-    width: 100%;
+  width: 80%;
+  margin-left: 10%; 
   }
+  
+  .mat-form-field {
+    font-size: 14px;
+    width: 80%;
+    margin-left: .25%;
+  }
+  
+  td, th {
+    width: 25%;
+  }
+
+  :host ::ng-deep .mat-header-cell-container {
+    display: flex;
+    justify-content: center;
+ }
   
   tr.example-detail-row {
     height: 0;
@@ -45,8 +61,3 @@ table {
   .example-element-description-attribution {
     opacity: 0.5;
   }
-
-  :host ::ng-deep .mat-header-cell-container {
-    display: flex;
-    justify-content: center;
- }
